@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Sambung Ayat - Juz Amma</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'arabic': ['Amiri', 'serif'],
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'deep-blue': '#1e3a8a',
+                        'islamic-gold': '#F59E0B', 
+                        'accent-yellow': '#FFC107',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script src="https://bernardo-castilho.github.io/DragDropTouch/DragDropTouch.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-blue-900 font-sans text-white min-h-screen relative overflow-x-hidden">
+
+    <nav class="absolute top-0 left-0 right-0 p-6 flex justify-between items-center max-w-6xl mx-auto w-full z-50">
+        <div onclick="showPage('home')" class="flex items-center gap-2 text-yellow-400 text-xl font-bold cursor-pointer hover:scale-105 transition">
+            <span>☪️</span> Sambung Ayat
+        </div>
+        <div class="hidden md:flex gap-6 text-sm font-semibold tracking-wide text-gray-300">
+            <button onclick="showPage('home')" class="hover:text-white transition focus:text-yellow-400">HOME</button>
+            <button onclick="showPage('leaderboard')" class="hover:text-white transition focus:text-yellow-400">LEADERBOARD</button>
+            <button onclick="showPage('tutorial')" class="hover:text-white transition focus:text-yellow-400">HOW TO PLAY</button>
+        </div>
+    </nav>
+
+    <div id="page-home" class="page-section min-h-screen flex flex-col pt-24 fade-in">
+        <main class="flex-1 flex flex-col items-center justify-center text-center px-4 pb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-yellow-400 mb-2">Ayo Bermain</h1>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Sambung Ayat!</h2>
+            
+            <p class="max-w-2xl text-gray-300 text-sm md:text-base leading-relaxed mb-10">
+                Pilih mode permainanmu di bawah ini untuk mulai belajar dan bermain.
+            </p>
+
+            <div class="mb-8 bg-black/20 px-6 py-2 rounded-full border border-yellow-500/30 backdrop-blur-sm">
+                <p class="text-yellow-400 font-bold text-sm">
+                    🏆 Rekor Saya: <span id="home-high-score" class="text-white text-lg ml-1">0</span>
+                </p>
+            </div>
+
+            <button onclick="startGame('normal')" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold py-4 px-10 rounded-full shadow-[0_0_20px_rgba(255,193,7,0.5)] transition transform hover:scale-105 active:scale-95 mb-16">
+                MAIN SEKARANG!
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full">
+                <div onclick="startGame('normal')" class="bg-blue-800/50 backdrop-blur-sm p-6 rounded-2xl border border-blue-700 hover:border-yellow-500 hover:bg-blue-800 transition cursor-pointer group">
+                    <div class="text-4xl mb-4 text-yellow-400 group-hover:scale-110 transition transform">🧩</div>
+                    <h3 class="font-bold text-lg mb-2">Sambung Ayat</h3>
+                    <p class="text-xs text-gray-400">Mode santai tanpa waktu.</p>
+                </div>
+                <div onclick="startGame('time')" class="bg-blue-800/50 backdrop-blur-sm p-6 rounded-2xl border border-blue-700 hover:border-yellow-500 hover:bg-blue-800 transition cursor-pointer group">
+                    <div class="text-4xl mb-4 text-yellow-400 group-hover:scale-110 transition transform">🕒</div>
+                    <h3 class="font-bold text-lg mb-2">Mode Waktu</h3>
+                    <p class="text-xs text-gray-400">Tantangan 60 detik!</p>
+                </div>
+                <div onclick="startGame('hard')" class="bg-blue-800/50 backdrop-blur-sm p-6 rounded-2xl border border-blue-700 hover:border-yellow-500 hover:bg-blue-800 transition cursor-pointer group">
+                    <div class="text-4xl mb-4 text-yellow-400 group-hover:scale-110 transition transform">🏆</div>
+                    <h3 class="font-bold text-lg mb-2">Kejar Peringkat</h3>
+                    <p class="text-xs text-gray-400">Nyawa cuma 1. Berani?</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="page-leaderboard" class="page-section hidden min-h-screen pt-24 px-4 flex flex-col items-center fade-in">
+        <h2 class="text-3xl font-bold text-yellow-400 mb-8">🏆 Papan Peringkat</h2>
+        <div class="bg-white text-slate-800 rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+            <div class="bg-yellow-500 p-4 font-bold text-blue-900 flex justify-between">
+                <span>Rank</span> <span>Nama</span> <span>Skor</span>
+            </div>
+            <div class="p-4 space-y-3">
+                <div class="flex justify-between border-b pb-2"><span class="font-bold text-yellow-600">#1</span> <span>Abdullah</span> <span class="font-bold">1500</span></div>
+                <div class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">#2</span> <span>Fatimah</span> <span class="font-bold">1200</span></div>
+                <div class="flex justify-between border-b pb-2"><span class="font-bold text-orange-700">#3</span> <span>Ahmad</span> <span class="font-bold">950</span></div>
+                <div class="flex justify-between text-gray-400 text-sm italic pt-2"><span colspan="3">Mainkan mode "Kejar Peringkat" untuk masuk sini!</span></div>
+            </div>
+        </div>
+        <button onclick="showPage('home')" class="mt-8 text-gray-300 hover:text-white underline">Kembali ke Home</button>
+    </div>
+
+    <div id="page-tutorial" class="page-section hidden min-h-screen pt-24 px-4 flex flex-col items-center fade-in text-center">
+        <h2 class="text-3xl font-bold text-yellow-400 mb-6">📖 Cara Bermain</h2>
+        <div class="max-w-2xl space-y-6 text-gray-200">
+            <div class="bg-blue-800/50 p-6 rounded-xl border border-blue-700">
+                <h3 class="font-bold text-xl text-white mb-2">1. Dengarkan & Baca</h3>
+                <p>Ayat soal akan muncul. Baca dengan teliti dan dengarkan audionya jika perlu.</p>
+            </div>
+            <div class="bg-blue-800/50 p-6 rounded-xl border border-blue-700">
+                <h3 class="font-bold text-xl text-white mb-2">2. Cari Sambungannya</h3>
+                <p>Lihat pilihan jawaban di bawah. Cari potongan ayat yang merupakan kelanjutan dari soal.</p>
+            </div>
+            <div class="bg-blue-800/50 p-6 rounded-xl border border-blue-700">
+                <h3 class="font-bold text-xl text-white mb-2">3. Geser (Drag & Drop)</h3>
+                <p>Tahan jawaban yang benar, lalu geser dan lepaskan di dalam kotak garis putus-putus.</p>
+            </div>
+        </div>
+        <button onclick="showPage('home')" class="mt-8 bg-blue-700 hover:bg-blue-600 px-6 py-2 rounded-full transition">Mengerti, Kembali</button>
+    </div>
+
+    <div id="page-game" class="page-section hidden min-h-screen w-full flex items-center justify-center p-4">
+        
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border-t-8 border-yellow-500 relative min-h-[650px] flex flex-col text-slate-800">
+            
+            <button onclick="showPage('home')" class="absolute top-4 left-4 z-20 text-gray-400 hover:text-red-500 bg-white rounded-full p-1 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </button>
+
+            <div class="absolute top-4 right-4 z-20 bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full flex gap-2">
+                <span id="mode-badge">NORMAL</span>
+                <span id="timer-display" class="hidden text-red-600">60s</span>
+            </div>
+
+            <div class="bg-white p-4 flex justify-between items-center shadow-sm z-10 pl-14 mt-8">
+                <div class="flex items-center gap-2">
+                    <span class="text-red-500 text-xl">❤️</span>
+                    <span id="lives-display" class="font-bold text-lg">3</span>
+                </div>
+                <div class="bg-blue-900 text-white px-4 py-1 rounded-full text-sm font-bold">
+                    Skor: <span id="score-display">0</span>
+                </div>
+            </div>
+
+            <div class="flex-1 p-6 flex flex-col items-center justify-center relative">
+                
+                <div id="loading-screen" class="absolute inset-0 bg-white z-20 flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-gray-500 animate-pulse">Menyiapkan Hafalan...</p>
+                </div>
+
+                <div id="game-over-screen" class="hidden absolute inset-0 bg-white/95 z-30 flex flex-col items-center justify-center text-center p-6 fade-in">
+                    <div class="text-6xl mb-4">😢</div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Permainan Selesai</h2>
+                    <p class="text-gray-600 mb-6">Skor Akhir Kamu:</p>
+                    <div class="text-5xl font-bold text-blue-900 mb-8" id="final-score">0</div>
+                    <button onclick="restartGame()" class="w-full py-3 bg-yellow-500 text-blue-900 rounded-xl font-bold hover:bg-yellow-400 transition shadow-lg mb-3">
+                        Main Lagi
+                    </button>
+                    <button onclick="showPage('home')" class="text-sm text-gray-500 underline">Kembali ke Menu Utama</button>
+                </div>
+
+                <div id="game-area" class="w-full hidden flex-col items-center fade-in">
+                    <audio id="verse-audio"></audio>
+                    
+                    <div class="mb-2 text-xs uppercase tracking-widest text-gray-400 font-semibold text-center">
+                        Sambung ayat ini
+                    </div>
+
+                    <div class="w-full bg-slate-50 p-6 rounded-2xl border-2 border-slate-100 mb-2 relative text-center">
+                        <p id="question-text" class="font-arabic text-3xl leading-loose text-slate-800 mb-6" dir="rtl">...</p>
+                        
+                        <div id="drop-zone" class="w-full h-24 border-2 border-dashed border-blue-300 bg-blue-50/50 rounded-xl flex items-center justify-center transition-all duration-300 relative overflow-hidden">
+                            <span class="text-gray-400 text-sm font-semibold pointer-events-none absolute z-0 animate-pulse">
+                                Geser jawaban ke sini
+                            </span>
+                        </div>
+                        <p id="surah-info" class="text-center text-xs text-gray-400 mt-4 font-sans"></p>
+                        <div id="translation-text" class="hidden mt-4 p-3 bg-green-100 text-green-800 text-sm font-semibold rounded-lg border border-green-300 shadow-sm fade-in">
+                    </div>
+                    </div>
+
+                    <button onclick="replayAudio()" class="mb-6 text-blue-900 text-sm flex items-center gap-1 hover:underline">
+                        🔊 Putar Ulang Audio
+                    </button>
+
+                    <div id="options-container" class="w-ful    l grid grid-cols-1 gap-3 pb-4">
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
